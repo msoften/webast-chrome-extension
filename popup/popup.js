@@ -124,15 +124,15 @@
 			}
 	
 			const showAlert = (message, type) => {
-				const wrapper = document.createElement('div')
+				const wrapper = document.createElement('div');
 				wrapper.innerHTML = [
 					`<div class="alert alert-${type} alert-dismissible" role="alert">`,
 					`   <div>${message}</div>`,
 					'   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
 					'</div>'
-				].join('')
+				].join('');
 	
-				alertPlaceholder.append(wrapper)
+				alertPlaceholder.append(wrapper);
 			}
 		}
 
@@ -144,7 +144,7 @@
 			// TODO: Use config variables for token names or create commom functions.
 			logoutButton.addEventListener('click', function (event) {
 				localStorage.removeItem(STORAGE_EMAIL_KEY);
-				localStorage.removeItem(STORAGE_TOKEN_KEY;
+				localStorage.removeItem(STORAGE_TOKEN_KEY);
 
 				window.location = "login.html";
 			});
