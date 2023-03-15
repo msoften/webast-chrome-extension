@@ -1,0 +1,41 @@
+<html lang="en">
+
+<head>
+	<link href="../assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+	<script src="../assets/bootstrap/bootstrap.min.js"></script>
+
+	<link href="popup.css" rel="stylesheet">
+</head>
+
+<body>
+	<div id="loginRegisterContainer" class="container">
+		<div id="loginRegisterForm">
+			<br />
+			<h1>WebAst</h1>
+
+			<div id="liveAlertPlaceholder"></div>
+
+			<div class="mb-3">
+				<label for="email" class="form-label">Emailaddress</label>
+				<input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+				<div id="emailHelp" class="form-text"></div>
+			</div>
+
+			<div class="mb-3">
+				<label for="password" class="form-label">Password</label>
+				<input type="password" class="form-control" id="password">
+			</div>
+
+			<!--TODO: Add grid row-->
+			<button id="loginButton" type="submit" class="btn btn-primary" value="login">Login</button>
+			<button id="registerButton" type="submit" class="btn btn-success" value="register">Register</button>
+
+			<!--TODO: Add forget option-->
+			<!-- <a href="dash.html">dash</a> -->
+		</div>
+	</div>
+
+	<script src="popup.js"></script>
+</body>
+
+</html>
