@@ -2,12 +2,13 @@
 	function onDOMContentLoaded() {
 		const API_URL = 'https://irewagd7e2.execute-api.us-east-1.amazonaws.com/dev/v1';
 
-		// TODO: Check if logged in.
-
-		console.log(window.location.href);
-
 		//* Pages
 		if (window.location.href.includes('login')) {
+			// If logged in redirect to dash
+			if(localStorage.getItem('webast-token') && localStorage.getItem('webast-email')) {
+				window.location = "dash.html";
+			}
+
 			const loginButton = document.getElementById('loginButton');
 			const registerButton = document.getElementById('registerButton');
 	
