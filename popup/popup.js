@@ -1,11 +1,13 @@
 (function () {
 	function onDOMContentLoaded() {
 		const API_URL = 'https://irewagd7e2.execute-api.us-east-1.amazonaws.com/dev/v1';
+		const STORAGE_TOKEN_KEY = 'webast-token';
+		const STORAGE_EMAIL_KEY = 'webast-email';
 
 		//* Pages
 		if (window.location.href.includes('login')) {
 			// If logged in redirect to dash
-			if(localStorage.getItem('webast-token') && localStorage.getItem('webast-email')) {
+			if(localStorage.getItem(STORAGE_TOKEN_KEY) && localStorage.getItem(STORAGE_EMAIL_KEY)) {
 				window.location = "dash.html";
 			}
 
@@ -61,8 +63,8 @@
 					}
 	
 					if (json) {
-						localStorage.setItem("webast-email", email);
-						localStorage.setItem("webast-token", json.data.token);
+						localStorage.setItem(STORAGE_EMAIL_KEY, email);
+						localStorage.setItem(STORAGE_TOKEN_KEY, json.data.token);
 
 						window.location = "dash.html";
 					}
@@ -141,8 +143,8 @@
 			//* Events.
 			// TODO: Use config variables for token names or create commom functions.
 			logoutButton.addEventListener('click', function (event) {
-				localStorage.removeItem("webast-email");
-				localStorage.removeItem("webast-token");
+				localStorage.removeItem(STORAGE_EMAIL_KEY);
+				localStorage.removeItem(STORAGE_TOKEN_KEY;
 
 				window.location = "login.html";
 			});
