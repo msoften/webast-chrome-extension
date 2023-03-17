@@ -17,7 +17,7 @@
 			const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
 	
 			registerButton.addEventListener('click', function (event) {
-				register(event)
+				register(event);
 			});
 
 			loginButton.addEventListener('click', function (event) {
