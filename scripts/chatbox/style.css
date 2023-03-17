@@ -1,0 +1,31 @@
+.app-chatbox {
+	z-index: 999999;
+}
+
+.app-chats {
+	overflow-y: scroll;
+	padding-bottom: 128px;
+}
+
+.app-chatbox-maximize {
+	height: 256px;
+	width: 512px;
+}
+
+.app-chatbox-minimize {
+	height: 32px;
+	overflow: hidden;
+	width: 32px;
+}
+
+.app-chatbox-minimize .webast-chat-box-close-button {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 9999999;
+	width: 32px;
+}
+
+.app-chatbox-minimize .tab-content, .app-chatbox-minimize .webast-nav-item-chat {
+	display: none;
+}
