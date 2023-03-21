@@ -1,20 +1,46 @@
 {
-  "manifest_version": 3,
-  "name": "WebAst",
-  "description": "Browsing AI Assistant.",
-  "version": "1.0",
-  "action": {
-    "default_popup": "popup/login.html",
-    "default_icon": "hello_extensions.png"
-  },
-  "background": {
-	"service_worker": "service-worker.js"
-},
-  "content_scripts": [
-	{
-	  "matches": ["<all_urls>"],
-	  "css": ["scripts/chatbox/style.css", "assets/bootstrap/bootstrap.min.css"],
-	  "js": ["scripts/chatbox/script.js", "assets/bootstrap/bootstrap.min.js"]
-	}
-  ]
+	"name": "Getting Started Example",
+	"version": "1.0",
+	"description": "Build an Extension!",
+	"permissions": [
+		"storage"
+	],
+	"background": {
+		"scripts": [
+			"service-worker.js"
+		],
+		"persistent": false
+	},
+	"page_action": {
+		"default_popup": "popup/login.html",
+		"default_icon": {
+			"16": "16.png",
+			"32": "32.png",
+			"48": "48.png",
+			"128": "128.png"
+		}
+	},
+	"icons": {
+		"16": "16.png",
+		"32": "32.png",
+		"48": "48.png",
+		"128": "128.png"
+	},
+	"manifest_version": 2,
+	"content_security_policy": "script-src 'self' https://www.paypal.com; object-src 'self'",
+	"content_scripts": [
+		{
+			"matches": [
+				"https://www.wikipedia.org/*"
+			],
+			"css": [
+				"scripts/chatbox/style.css",
+				"assets/bootstrap/bootstrap.min.css"
+			],
+			"js": [
+				"scripts/chatbox/script.js",
+				"assets/bootstrap/bootstrap.min.js"
+			]
+		}
+	]
 }

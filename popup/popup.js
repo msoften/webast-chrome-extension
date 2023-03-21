@@ -4,6 +4,19 @@
 		const STORAGE_TOKEN_KEY = 'webast-token';
 		const STORAGE_EMAIL_KEY = 'webast-email';
 
+		// Global functions.
+		const showAlert = (message, type) => {
+			const wrapper = document.createElement('div');
+			wrapper.innerHTML = [
+				`<div class="alert alert-${type} alert-dismissible" role="alert">`,
+				`   <div>${message}</div>`,
+				'   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+				'</div>'
+			].join('');
+
+			alertPlaceholder.append(wrapper);
+		}
+
 		//* Pages
 		if (window.location.href.includes('login')) {
 			// If logged in redirect to dash
@@ -122,22 +135,9 @@
 					showAlert(error.message, 'danger');
 				}
 			}
-
-			const showAlert = (message, type) => {
-				const wrapper = document.createElement('div');
-				wrapper.innerHTML = [
-					`<div class="alert alert-${type} alert-dismissible" role="alert">`,
-					`   <div>${message}</div>`,
-					'   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-					'</div>'
-				].join('');
-
-				alertPlaceholder.append(wrapper);
-			}
 		}
 
 		if (window.location.href.includes('dash.html')) {
-			console.log('+');
 			const logoutButton = document.getElementById('logoutButton');
 			const webastSubscriptions = document.getElementById('webast-subscriptions');
 			const webastUserTokens = document.getElementById('webast-user-tokens');
@@ -151,10 +151,6 @@
 				window.location = "login.html";
 			});
 
-			const subscibe = async (subscription) => {
-				// TODO: Launch Paypal payment here.
-
-			};
 
 			// TODO: add function doc
 			const getSubscriptions = async () => {
@@ -184,16 +180,16 @@
 								<li>
 									${subscription.description}
 									<br/>
-									<button id="subscription-button-${subscription.price}">buy $${subscription.price}/-</button>
+									<a id="subscription-button-${subscription.price}" href="checkout.html?sub=${encodeURIComponent(JSON.stringify(subscription))}" class="btn btn-primary">buy $${subscription.price}/-</a>
 								</li>
 							`;
 						});
 
-						json.data.forEach(subscription => {
-							document.getElementById(`subscription-button-${subscription.price}`).addEventListener('click', function (event) {
-								subscibe(subscription);
-							});
-						});
+						// json.data.forEach(subscription => {
+						// 	document.getElementById(`subscription-button-${subscription.price}`).addEventListener('click', function (event) {
+						// 		subscibe(subscription);
+						// 	});
+						// });
 					}
 				} catch (error) {
 					console.log('error: ' + error.message);
@@ -232,6 +228,75 @@
 			};
 
 			getUserTokens();
+		}
+
+		if (window.location.href.includes('checkout')) {
+			console.log('+');
+			const urlParams = new URLSearchParams(window.location.search);
+			const subscription = JSON.parse(urlParams.get('sub'));
+			console.log(subscription);
+
+			const subscibe = async (paymentReference) => {
+				const requestOptions = {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						"email": localStorage.getItem(STORAGE_EMAIL_KEY),
+						"targetSubscription": subscription,
+						"paymentReference": paymentReference
+					  }),
+					redirect: 'follow'
+				};
+
+				try {
+					const response = await fetch(`${API_URL}/subscriptions/user`, requestOptions);
+
+
+					if (!response.ok) {
+						throw new Error(json.message);
+					}
+
+					window.location = "dash.html";
+				} catch (error) {
+					console.log('error: ' + error.message);
+					showAlert(error.message, 'danger');
+				}
+			};
+
+			/*
+			 * Paypal
+			 */
+			paypal.Buttons(
+				{
+					createOrder: function (data, actions) {
+						// This function sets up the details of the transaction, including the amount and line item details.
+						return actions.order.create({
+							purchase_units: [{
+								reference_id: self.order_id,
+								description: "Order id: " + self.order_id,
+								amount: {
+									value: subscription.price
+								}
+							}],
+							application_context: {shipping_preference: 'NO_SHIPPING'}
+						});
+					},
+					onApprove: function (data, actions) {
+						// This function captures the funds from the transaction.
+						return actions.order.capture().then(function (details) {
+							//  This function shows a transaction success message to your buyer.
+							//  alert('Transaction completed by ' + details.payer.name.given_name);
+
+							console.log(details.purchase_units[0].payments.captures[0].id);
+
+							subscibe(details.purchase_units[0].payments.captures[0].id);
+
+						});
+					}
+				}
+			).render('#paypal-button-container');
 		}
 	}
 
