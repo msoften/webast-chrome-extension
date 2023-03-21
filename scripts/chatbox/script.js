@@ -150,3 +150,24 @@ const toggleChatBoxMaximizeMinimize = () => {
 		webastChatBox.classList.remove('app-chatbox-maximize');
 	}
 };
+
+
+/*
+ * Handle incoming messages.
+ */
+chrome.runtime.onMessage.addListener(
+	function (request, sender, sendResponse) {
+
+		console.log(`Chatbox script message: ${JSON.stringify(request)}`);
+
+		switch (request.target) {
+			case 'webast-chatbox-textarea':
+				appChatTextArea.value = request.message;
+				break;
+			default:
+			// code block
+		}
+
+		sendResponse({farewell: "goodbye"});
+	}
+);

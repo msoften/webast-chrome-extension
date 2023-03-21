@@ -3,7 +3,11 @@
 	"version": "1.0",
 	"description": "Build an Extension!",
 	"permissions": [
-		"storage"
+		"storage",
+		"tabs",
+        "contextMenus",
+        "activeTab",
+        "scripting"
 	],
 	"background": {
 		"scripts": [
@@ -31,7 +35,7 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"https://www.wikipedia.org/*"
+				"https://*.wikipedia.org/*"
 			],
 			"css": [
 				"scripts/chatbox/style.css",
