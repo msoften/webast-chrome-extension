@@ -7,15 +7,15 @@
 		//* Pages
 		if (window.location.href.includes('login')) {
 			// If logged in redirect to dash
-			if(localStorage.getItem(STORAGE_TOKEN_KEY) && localStorage.getItem(STORAGE_EMAIL_KEY)) {
+			if (localStorage.getItem(STORAGE_TOKEN_KEY) && localStorage.getItem(STORAGE_EMAIL_KEY)) {
 				window.location = "dash.html";
 			}
 
 			const loginButton = document.getElementById('loginButton');
 			const registerButton = document.getElementById('registerButton');
-	
+
 			const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
-	
+
 			registerButton.addEventListener('click', function (event) {
 				register(event);
 			});
@@ -23,25 +23,25 @@
 			loginButton.addEventListener('click', function (event) {
 				login(event);
 			});
-	
+
 			//* Functions.
 			async function register(event) {
 				// TODO: add loader indicator.
 				const emailInput = document.getElementById('email');
 				const passwordInput = document.getElementById('password');
-	
+
 				// get the values from the form inputs
 				const email = emailInput.value;
 				const password = passwordInput.value;
-	
+
 				//TODO: Validate email input.
 				if (email === '')
 					emailInput.classList.add('is-invalid');
-	
+
 				//TODO: Validate password input.
 				if (password === '')
 					passwordInput.classList.add('is-invalid');
-	
+
 				const requestOptions = {
 					method: 'POST',
 					headers: {
@@ -53,15 +53,15 @@
 					}),
 					redirect: 'follow'
 				};
-	
+
 				try {
 					const response = await fetch(`${API_URL}/auth/register`, requestOptions);
 					const json = await response.json();
-	
+
 					if (!response.ok) {
 						throw new Error(json.message);
 					}
-	
+
 					if (json) {
 						localStorage.setItem(STORAGE_EMAIL_KEY, email);
 						localStorage.setItem(STORAGE_TOKEN_KEY, json.data.token);
@@ -78,19 +78,19 @@
 				// TODO: add loader indicator.
 				const emailInput = document.getElementById('email');
 				const passwordInput = document.getElementById('password');
-	
+
 				// get the values from the form inputs
 				const email = emailInput.value;
 				const password = passwordInput.value;
-	
+
 				//TODO: Validate email input.
 				if (email === '')
 					emailInput.classList.add('is-invalid');
-	
+
 				//TODO: Validate password input.
 				if (password === '')
 					passwordInput.classList.add('is-invalid');
-	
+
 				const requestOptions = {
 					method: 'POST',
 					headers: {
@@ -102,15 +102,15 @@
 					}),
 					redirect: 'follow'
 				};
-	
+
 				try {
 					const response = await fetch(`${API_URL}/auth/login`, requestOptions);
 					const json = await response.json();
-	
+
 					if (!response.ok) {
 						throw new Error(json.message);
 					}
-	
+
 					if (json) {
 						localStorage.setItem("webast-email", email);
 						localStorage.setItem("webast-token", json.data.token);
@@ -122,7 +122,7 @@
 					showAlert(error.message, 'danger');
 				}
 			}
-	
+
 			const showAlert = (message, type) => {
 				const wrapper = document.createElement('div');
 				wrapper.innerHTML = [
@@ -131,7 +131,7 @@
 					'   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
 					'</div>'
 				].join('');
-	
+
 				alertPlaceholder.append(wrapper);
 			}
 		}
@@ -139,6 +139,8 @@
 		if (window.location.href.includes('dash.html')) {
 			console.log('+');
 			const logoutButton = document.getElementById('logoutButton');
+			const webastSubscriptions = document.getElementById('webast-subscriptions');
+			const webastUserTokens = document.getElementById('webast-user-tokens');
 
 			//* Events.
 			// TODO: Use config variables for token names or create commom functions.
@@ -148,6 +150,88 @@
 
 				window.location = "login.html";
 			});
+
+			const subscibe = async (subscription) => {
+				// TODO: Launch Paypal payment here.
+
+			};
+
+			// TODO: add function doc
+			const getSubscriptions = async () => {
+				const requestOptions = {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${localStorage.getItem(STORAGE_TOKEN_KEY)}`
+					},
+					redirect: 'follow',
+				};
+
+				try {
+					const response = await fetch(`${API_URL}/subscriptions`, requestOptions);
+					const json = await response.json();
+
+					if (!response.ok) {
+						throw new Error(json.message);
+					}
+
+					if (json) {
+						console.log(typeof json.data);
+
+						json.data.forEach(subscription => {
+							// TODO: Use subscription id for button id
+							webastSubscriptions.innerHTML = webastSubscriptions.innerHTML + `
+								<li>
+									${subscription.description}
+									<br/>
+									<button id="subscription-button-${subscription.price}">buy $${subscription.price}/-</button>
+								</li>
+							`;
+						});
+
+						json.data.forEach(subscription => {
+							document.getElementById(`subscription-button-${subscription.price}`).addEventListener('click', function (event) {
+								subscibe(subscription);
+							});
+						});
+					}
+				} catch (error) {
+					console.log('error: ' + error.message);
+				}
+			};
+
+			getSubscriptions();
+
+
+			// TODO: add function doc
+			const getUserTokens = async () => {
+				const requestOptions = {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${localStorage.getItem(STORAGE_TOKEN_KEY)}`
+					},
+					redirect: 'follow',
+				};
+
+				try {
+					const response = await fetch(`${API_URL}/tokens/user?email=${localStorage.getItem(STORAGE_EMAIL_KEY)}`, requestOptions);
+					const json = await response.json();
+
+					if (!response.ok) {
+						throw new Error(json.message);
+					}
+
+					if (json) {
+						console.log(typeof json.data);
+						webastUserTokens.innerHTML = `Tokens: ${json.data}`;
+					}
+				} catch (error) {
+					console.log('error: ' + error.message);
+				}
+			};
+
+			getUserTokens();
 		}
 	}
 

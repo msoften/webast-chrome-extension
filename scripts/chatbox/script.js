@@ -108,6 +108,8 @@ const getAIChatResponse = async (messages) => {
 		},
 		body: JSON.stringify({
 			"messages": JSON.stringify(messages),
+			// TODO: Get email from service worker which gets from popup
+			"email": "hello@hello.com"
 		}),
 		redirect: 'follow',
 	};
