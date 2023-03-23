@@ -1,14 +1,15 @@
 .app-chatbox {
 	z-index: 999999;
+	font-size: 0.95em;
 }
 
-.app-chats {
+/* .app-chats {
 	overflow-y: scroll;
 	padding-bottom: 128px;
-}
+} */
 
 .app-chatbox-maximize {
-	height: 256px;
+	height: 320px;
 	width: 512px;
 }
 
@@ -28,4 +29,13 @@
 
 .app-chatbox-minimize .tab-content, .app-chatbox-minimize .webast-nav-item-chat {
 	display: none;
+}
+
+/*
+ * Chatbox content.
+ */
+#webast-chat-box .webast-tab-content {
+    overflow-y: scroll;
+    height: 100%;
+    padding-bottom: 256px !important;
 }
