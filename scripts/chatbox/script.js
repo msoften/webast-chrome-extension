@@ -173,7 +173,12 @@ chrome.runtime.onMessage.addListener(
 // TODO: Add docs.
 const addMessageToMessages = (message) => {
 	messages.push(message);
-	chats.innerHTML = chats.innerHTML + `<div>${message.content}</div>`;
+
+	if(message.role === 'assistant'){
+		chats.innerHTML = chats.innerHTML + `<div class="webast-chat-assistant bg-warning-subtle mb-1 me-5 p-2 border rounded-bottom rounded-end">${message.content}</div>`;
+	} else if(message.role === 'user') {
+		chats.innerHTML = chats.innerHTML + `<div class="webast-chat-user bg-success-subtle mb-1 ms-5 p-2 border rounded-top rounded-start">${message.content}</div>`;
+	}
 };
 
 const toggleChatBoxMaximizeMinimize = () => {
