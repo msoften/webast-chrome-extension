@@ -48,3 +48,16 @@ const sendMessageToHelperScript = (message) => {
 		});
 	});
 };
+
+/*
+ * Messages from content scripts.
+ */
+chrome.runtime.onMessage.addListener(
+	function (request, sender, sendResponse) {
+		if (request.target == "getCredentials")
+			sendResponse({
+				email: localStorage.getItem('webast-email'),
+				token: localStorage.getItem('webast-token'),
+			});
+	}
+);

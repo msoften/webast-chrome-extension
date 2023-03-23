@@ -1,5 +1,6 @@
 const API_URL = 'https://irewagd7e2.execute-api.us-east-1.amazonaws.com/dev/v1';
-
+let EMAIL = null;
+let TOKEN = null;
 
 // TODO: Add bootstrap icons.
 // TODO: Add history tab.
@@ -7,7 +8,7 @@ const API_URL = 'https://irewagd7e2.execute-api.us-east-1.amazonaws.com/dev/v1';
  * Views.
  */
 const rawHtml = `
-<div id="webast-chat-box" class="app-chatbox position-fixed bottom-0 end-0 bg-primary-subtle app-chatbox-maximize m-2">
+<div id="webast-chat-box" class="app-chatbox position-fixed bottom-0 end-0 bg-primary-subtle app-chatbox-maximize m-4">
 	<ul class="nav nav-tabs" id="myTab" role="tablist">
 		<!--<li class="nav-item" role="presentation">
 			<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">History</button>
@@ -36,11 +37,11 @@ const rawHtml = `
 
 			<div class="position-absolute bottom-0 start-0 end-0 p-3">
 				<div class="row">
-					<div class="col-9">
+					<div class="col">
 						<textarea id="appChatTextArea" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 					</div>
 
-					<div class="col-3">
+					<div class="col-2">
 						<button id="clearChatButton" type="submit" class="btn btn-success m-1">Clear</button>
 						<br/>
 						<button id="sendChatButton" type="submit" class="btn btn-primary m-1">Send</button>
@@ -139,11 +140,12 @@ const getAIChatResponse = async (messages) => {
 			console.log(json);
 			addMessageToMessages(json.data);
 		}
+
+		getUserTokens(EMAIL);
 	} catch (error) {
 		console.log('error: ' + error.message);
 	}
 };
-
 
 
 /*
@@ -174,9 +176,9 @@ chrome.runtime.onMessage.addListener(
 const addMessageToMessages = (message) => {
 	messages.push(message);
 
-	if(message.role === 'assistant'){
+	if (message.role === 'assistant') {
 		chats.innerHTML = chats.innerHTML + `<div class="webast-chat-assistant bg-warning-subtle mb-1 me-5 p-2 border rounded-bottom rounded-end">${message.content}</div>`;
-	} else if(message.role === 'user') {
+	} else if (message.role === 'user') {
 		chats.innerHTML = chats.innerHTML + `<div class="webast-chat-user bg-success-subtle mb-1 ms-5 p-2 border rounded-top rounded-start">${message.content}</div>`;
 	}
 };
@@ -193,7 +195,7 @@ const toggleChatBoxMaximizeMinimize = () => {
 
 
 // TODO: add function doc
-const getUserTokens = async () => {
+const getUserTokens = async (email) => {
 	const requestOptions = {
 		method: 'GET',
 		headers: {
@@ -206,7 +208,7 @@ const getUserTokens = async () => {
 
 	try {
 		// TODO: Get email from localsotrage popup page.
-		const response = await fetch(`${API_URL}/tokens/user?email=hello@hello.com`, requestOptions);
+		const response = await fetch(`${API_URL}/tokens/user?email=${email}`, requestOptions);
 		const json = await response.json();
 
 		if (!response.ok) {
@@ -214,7 +216,6 @@ const getUserTokens = async () => {
 		}
 
 		if (json) {
-			console.log(typeof json.data);
 			// TODO: format tokens to kb, mb
 			webastTokensTab.innerHTML = `Tokens: ${json.data}`;
 		}
@@ -223,4 +224,14 @@ const getUserTokens = async () => {
 	}
 };
 
-getUserTokens();
+
+/*
+ * Get token and email.
+ */
+// TODO: Get user email first ensure its not null.
+chrome.runtime.sendMessage({target: "getCredentials"}, function (response) {
+	EMAIL = response.email;
+	TOKEN = response.token;
+	if (EMAIL !== null)
+		getUserTokens(EMAIL);
+});
