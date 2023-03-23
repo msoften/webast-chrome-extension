@@ -9,7 +9,7 @@
 } */
 
 .app-chatbox-maximize {
-	height: 320px;
+	height: 384px;
 	width: 512px;
 }
 
@@ -27,7 +27,8 @@
 	width: 32px;
 }
 
-.app-chatbox-minimize .tab-content, .app-chatbox-minimize .webast-nav-item-chat {
+.app-chatbox-minimize .tab-content,
+.app-chatbox-minimize .webast-nav-item-chat {
 	display: none;
 }
 
@@ -35,7 +36,18 @@
  * Chatbox content.
  */
 #webast-chat-box .webast-tab-content {
-    overflow-y: scroll;
-    height: 100%;
-    padding-bottom: 256px !important;
+	overflow-y: scroll;
+	height: 100%;
+	padding-bottom: 256px !important;
+}
+
+/*
+ * Chats.
+ */
+.webast-chat-assistant {
+	text-align: left;
+}
+
+.webast-chat-user {
+	text-align: right;
 }
