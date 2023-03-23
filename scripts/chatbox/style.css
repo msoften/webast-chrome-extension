@@ -1,6 +1,7 @@
 .app-chatbox {
 	z-index: 999999;
 	font-size: 0.95em;
+	overflow: hidden;
 }
 
 /* .app-chats {
@@ -36,7 +37,7 @@
  * Chatbox content.
  */
 #webast-chat-box .webast-tab-content {
-	overflow-y: scroll;
+	overflow-y: auto;
 	height: 100%;
 	padding-bottom: 256px !important;
 }
