@@ -1,2 +1,5 @@
-# webast-chrome-extension
-WebAst client frontend
+# WebAst Chrome Extension.
+# Project details.
+# Releases.
+# How to install.
+# License.
