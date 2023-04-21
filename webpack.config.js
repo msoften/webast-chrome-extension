@@ -1,8 +1,8 @@
 const path = require('path');
 
 module.exports = {
-    mode: 'development',
-    entry: './src/content.tsx',
+    mode: 'production',
+    entry: './src/content/content.tsx',
     module: {
         rules: [
             {
