@@ -22,6 +22,15 @@ module.exports = {
                     },
                 },
             },
+            {
+                test: /\.sass$/, // Match .sass files
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader'
+                ],
+                exclude: /node_modules/,
+            },
         ],
     },
     resolve: {
