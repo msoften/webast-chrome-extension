@@ -25,7 +25,7 @@ Our project aims to develop an innovative Chrome extension that seamlessly integ
 
 ## 👥 Team Members.
 
-Name: Moses Mwangi
+Name: [Moses Mwangi](https://github.com/MosesSoftEng)
 
 Contact: [moses.soft.eng@gmail.com](mailto:moses.soft.eng@gmail.com)
 
