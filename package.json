@@ -19,6 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-background": "tsc src/background.ts --outDir build/background",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
