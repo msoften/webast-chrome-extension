@@ -17,13 +17,13 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": false,
-    "noEmit": false, // set to false to emit the compiled JavaScript code
+    "noEmit": false,
     "jsx": "react-jsx"
   },
   "include": [
     "src"
   ],
   "exclude": [
-    "src/background.ts", "src/content.ts"
+    "src/background.ts", "src/content.tsx"
   ]
 }
