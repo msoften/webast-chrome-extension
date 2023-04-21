@@ -24,6 +24,6 @@
     "src"
   ],
   "exclude": [
-    "src/background.ts", "src/content.tsx"
+    "src/background/background.ts", "src/content/content.tsx"
   ]
 }
