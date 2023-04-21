@@ -2,6 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import './App.scss';
+
 function App() {
   return (
     <div className="App">
@@ -16,6 +18,8 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
+
+          <button type="button" className="btn btn-primary">Base class</button>
           Learn React
         </a>
       </header>
