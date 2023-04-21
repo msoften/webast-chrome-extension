@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && tsc src/background.ts --outDir build && tsc src/content.ts --outDir build/scripts",
+    "build": "react-scripts build && tsc src/background.ts --outDir build && tsc src/content.tsx --outDir build/scripts",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -39,5 +39,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.233"
   }
 }
